@@ -1,6 +1,7 @@
 package io.github.montytsai.authkit.service;
 
 import io.github.montytsai.authkit.dto.RegisterRequest;
+import io.github.montytsai.authkit.exception.UserAlreadyExistsException;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -33,14 +34,14 @@ public class AuthService {
         // 檢查使用者是否已存在
         if (userStore.containsKey(registerRequest.getEmail())) {
             log.warn("Registration failed: Email {} already exists.", registerRequest.getEmail());
-            throw new IllegalStateException("User with email " + registerRequest.getEmail() + " already exists.");
+            throw new UserAlreadyExistsException("User with email " + registerRequest.getEmail() + " already exists.");
         }
 
         // 加密密碼
         String hashedPassword = passwordEncoder.encode(registerRequest.getPassword());
+        // 在控制台印出 Log，方便驗證密碼真的被加密
         log.debug("Password successfully hashed for email: {}", registerRequest.getEmail());
 
-        // 在控制台印出 Log，方便驗證密碼真的被加密
         userStore.put(registerRequest.getEmail(), hashedPassword);
         log.info("User {} registered successfully.", registerRequest.getEmail());
         log.debug("Current user store state: {}", userStore);
