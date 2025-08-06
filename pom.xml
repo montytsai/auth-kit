@@ -20,6 +20,7 @@
 		<java.version>17</java.version>
 		<springdoc-openapi-starter-webmvc-ui.version>2.8.9</springdoc-openapi-starter-webmvc-ui.version>
 		<commons-lang3.version>3.18.0</commons-lang3.version>
+		<spotbugs-maven-plugin.version>4.8.6.2</spotbugs-maven-plugin.version>
 	</properties>
 
 	<dependencies>
@@ -74,6 +75,21 @@
 						</exclude>
 					</excludes>
 				</configuration>
+			</plugin>
+			<!-- spotbugs-->
+			<plugin>
+				<groupId>com.github.spotbugs</groupId>
+				<artifactId>spotbugs-maven-plugin</artifactId>
+				<version>${spotbugs-maven-plugin.version}</version>
+				<executions>
+					<execution>
+						<id>spotbugs-check</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>check</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
