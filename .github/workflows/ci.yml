@@ -41,3 +41,8 @@ jobs:
       # Step 6: Package the application into a JAR file, skipping tests as they've already run
       - name: Package application
         run: ./mvnw -B package -DskipTests
+
+      # Step 7: Trigger Render deployment (THIS IS THE NEW PART)
+      - name: Trigger Render Deploy
+        if: success()
+        run: curl -X POST ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
