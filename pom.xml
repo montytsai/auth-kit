@@ -12,7 +12,7 @@
 
 	<groupId>io.github.montytsai</groupId>
 	<artifactId>auth-kit</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<name>auth-kit</name>
 	<description>A showcase project demonstrating a secure RESTful authentication API using modern Java practices.</description>
 
