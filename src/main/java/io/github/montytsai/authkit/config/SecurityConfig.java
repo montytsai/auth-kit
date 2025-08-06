@@ -3,7 +3,6 @@ package io.github.montytsai.authkit.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -32,13 +31,18 @@ public class SecurityConfig {
      *
      * @implSpec
      * - **CSRF 禁用：** 適用於無狀態 RESTful API (如 JWT 認證)，降低了 CSRF 攻擊風險並簡化前後端。
-     * - **授權規則：** `/api/auth/**` 允許匿名訪問；其餘任何請求均需身份驗證。
+     * - **授權規則：** `/,`/api/auth/**`, swagger 允許匿名訪問；其餘任何請求均需身份驗證。
      */
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authz -> authz
-                        .requestMatchers("/api/auth/**").permitAll()
+                        // 確保以下所有路徑都包含在內
+                        .requestMatchers(
+                                "/",
+                                "/api/auth/**",
+                                "/swagger-ui/**", "/api-docs/**"
+                        ).permitAll()
                         .anyRequest().authenticated()
                 );
         return http.build();

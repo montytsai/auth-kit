@@ -1,116 +1,100 @@
-# Project AuthKit
+# 📦 AuthKit 專案介紹
 
-一個使用現代化 Java 實踐，旨在展示如何打造安全、可部署的 RESTful 認證 API 的作品集專案。
+一個使用現代 Java 技術打造的 **安全、可部署的 RESTful 認證 API** 展示專案。
 
-本專案是一個個人衝刺計畫的成果，目標是從零開始，建置一個具備生產就緒、容器化、並整合 CI/CD 的認證服務。它是我快速學習、解決問題，並將想法落地為高品質工程實踐能力的具體證明。
+本專案是我一週衝刺的成果，目標是從零開始打造一個具備 **生產等級、容器化、CI/CD 支援** 的認證服務。  
+它是我具體展現快速學習、解決實務問題、並實踐高品質工程能力的證明。
 
 [![Java CI with Maven](https://github.com/montytsai/auth-kit/actions/workflows/ci.yml/badge.svg)](https://github.com/montytsai/auth-kit/actions/workflows/ci.yml)
 
 [English](README.md) | 繁體中文
 
-## ✨ 功能亮點 (Features)
+---
 
--   **使用者註冊與登入**：提供 RESTful API 進行使用者註冊及身份驗證，密碼使用 BCrypt 進行安全雜湊。
--   **參數驗證**：透過 Jakarta Bean Validation 實現請求參數的 declarative 驗證，確保資料完整性。
--   **全域異常處理**：建立統一的 `GlobalExceptionHandler`，為 API 提供一致、清晰的錯誤回應格式。
--   **容器化支援**：提供一個採用多階段建置 (Multi-stage build) 的 `Dockerfile`，可產生輕量級、安全的正式環境映像檔。
--   **自動化 CI 流程**：整合 GitHub Actions，在每次推送到 `main` 分支時，自動執行編譯與測試，確保程式碼品質。
+## 🌐 線上展示
 
-## 🛠️ 技術棧 (Tech Stack)
+服務部署於 Render，公開可用：
 
--   **後端**：Java 17、Spring Boot 3 (Web, Security)
--   **資料庫**：In-Memory `ConcurrentHashMap` (MVP 階段)
--   **建置與工具**：Maven、Lombok、Jakarta Bean Validation
--   **DevOps**：Docker、GitHub Actions (CI)
-
-## 🚀 專案啟動指南 (Getting Started)
-
-### 必要條件
-
--   Docker Desktop 已安裝並處於運行狀態。
-
-### 使用 Docker 運行 (建議方式)
-
-這是最簡單的運行方式，它不需要在本機安裝 Java 或 Maven 環境。
-
-1.  **複製儲存庫**：
-    ```bash
-    git clone [https://github.com/montytsai/auth-kit.git](https://github.com/montytsai/auth-kit.git)
-    cd auth-kit
-    ```
-
-2.  **建置 Docker 映像檔**：
-    ```bash
-    docker build -t auth-kit .
-    ```
-
-3.  **運行 Docker 容器**：
-    ```bash
-    docker run -p 8080:8080 auth-kit
-    ```
-
-4.  應用程式現在已成功運行，並可透過 `http://localhost:8080` 訪問。
+> **基底 URL**：[`https://auth-kit-montytsai.onrender.com`](https://auth-kit-montytsai.onrender.com)
 
 ---
 
-## 📝 API 使用說明
+## 📄 互動式 API 文件 Swagger UI
 
-### 1. 使用者註冊
+專案內建 Swagger UI，可直接於瀏覽器查看與測試 API：
 
--   **端點**：`POST /api/auth/register`
--   **說明**：建立一個新的使用者帳號。
--   **請求內文 (Request Body)**：
-    ```json
-    {
-        "email": "test@example.com",
-        "password": "password123"
-    }
-    ```
--   **成功回應**：
-    -   **狀態碼**：`201 Created`
-    -   **回應內文**：`"User registered successfully."`
--   **錯誤回應**：
-    -   **狀態碼**：`400 Bad Request` (若驗證失敗)
-    -   **回應內文**：
-        ```json
-        {
-            "password": "Password must be at least 8 characters long",
-            "email": "Invalid email format"
-        }
-        ```
-    -   **狀態碼**：`409 Conflict` (若 Email 已存在)
-    -   **回應內文**：
-        ```json
-        {
-            "error": "User with email test@example.com already exists."
-        }
-        ```
+> **[前往 Swagger UI](https://auth-kit-montytsai.onrender.com/swagger-ui/index.html)**
 
-### 2. 使用者登入
+---
 
--   **端點**：`POST /api/auth/login`
--   **說明**：驗證使用者身份並回傳一個臨時 Token。
--   **請求內文 (Request Body)**：
-    ```json
-    {
-        "email": "test@example.com",
-        "password": "password123"
-    }
-    ```
--   **成功回應**：
-    -   **狀態碼**：`200 OK`
-    -   **回應內文**：
-        ```json
-        {
-            "message": "Login successful!",
-            "token": "dummy-jwt-token-for-test@example.com"
-        }
-        ```
--   **錯誤回應**：
-    -   **狀態碼**：`401 Unauthorized` (若憑證無效)
-    -   **回應內文**：
-        ```json
-        {
-            "error": "Invalid credentials."
-        }
-        ```
+## ✨ 功能亮點
+
+- **使用者註冊與登入**：整合 Spring Security，密碼使用 BCrypt 雜湊。
+- **輸入驗證**：使用 Jakarta Bean Validation 進行宣告式驗證。
+- **全域異常處理**：集中式錯誤處理機制，統一回應格式。
+- **容器化支援**：使用多階段建置，產出輕量 Docker 映像。
+- **CI 自動化**：GitHub Actions 自動編譯與測試每次提交。
+
+---
+
+## 🛠️ 技術棧
+
+- **後端**：Java 17、Spring Boot 3（Web、Security）
+- **資料庫**：記憶體型 ConcurrentHashMap（MVP 階段）
+- **API 文件**：SpringDoc OpenAPI（Swagger UI）
+- **建置工具**：Maven、Lombok、Jakarta Bean Validation
+- **DevOps**：Docker、GitHub Actions
+
+---
+
+## 🏛️ 系統架構
+
+遵循標準分層架構，強調可讀性與維護性。
+
+```
+├── .github/workflows/         # GitHub Actions CI 設定
+├── src/main/java
+│   └── io/github/montytsai/authkit
+│       ├── config/            # Security 設定、Bean 配置
+│       ├── controller/        # API 端點
+│       ├── dto/               # 請求／回應資料結構
+│       ├── exception/         # 全域錯誤處理與自定義異常
+│       ├── service/           # 核心商業邏輯
+│       └── AuthKitApplication.java
+├── src/main/resources/        # 設定檔
+├── Dockerfile                 # 多階段建置 Dockerfile
+└── pom.xml                    # Maven 專案設定
+```
+
+---
+
+## 🚀 本地執行方式
+
+### 前置需求
+
+- 已安裝並啟動 Docker Desktop
+
+### 使用 Docker 運行（推薦）
+
+```bash
+# 複製儲存庫
+git clone https://github.com/montytsai/auth-kit.git
+cd auth-kit
+
+# 建置映像
+docker build -t auth-kit .
+
+# 運行容器
+docker run -p 8080:8080 auth-kit
+```
+
+啟動後，服務位於：  
+🔗 `http://localhost:8080`  
+Swagger UI：`http://localhost:8080/swagger-ui/index.html`
+
+---
+
+## 📝 API 文件
+
+所有 API 規格、請求與回應範例，請參考上方的 [Swagger UI](#-互動式-API-文件-Swagger-UI)。
+
